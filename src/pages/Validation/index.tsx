@@ -2,30 +2,22 @@ import React, { useEffect, useState } from 'react';
 import Select, { SingleValue } from 'react-select';
 import { useQuery } from '@apollo/client';
 
-import { GET_COUNTRIES } from '../../api/';
+import { GET_COUNTRIES } from 'api/';
 
-import { Country } from '../../types/country';
-import { SelectOption } from '../../types/selectOption';
+import { Country } from 'types/country';
+import { SelectOption } from 'types/selectOption';
 
-import Layout from '../../layout';
-import Loading from '../../components/Loading';
-import RequestError from '../../components/RequestError';
+import useStateFromStorage from 'hooks/useStateFromStorage';
+
+import Layout from 'layout';
+import Loading from 'components/Loading';
+import RequestError from 'components/RequestError';
 
 import { Container, InputsContainer, InputWrapper, ErrorContainer, ErrorTitle, Input } from './styled';
 
 export default function Validation() {
-  const [selectedCountry, setSelectedCountry] = useState<Country | null>(() => {
-    const country = window.localStorage.getItem("country");
-    return country !== null
-      ? JSON.parse(country)
-      : null;
-  });
-  const [code, setCode] = useState<string>(() => {
-    const code = window.localStorage.getItem("code");
-    return code !== null
-      ? code
-      : '';
-  });
+  const [selectedCountry, setSelectedCountry] = useStateFromStorage('country');
+  const [code, setCode] = useStateFromStorage('code', true);
   const [error, setError] = useState<boolean>(false);
 
   const { 
@@ -33,16 +25,6 @@ export default function Validation() {
     loading: countriesLoading, 
     error: countriesError,
   } = useQuery(GET_COUNTRIES);
-
-  useEffect(() => {
-    if (selectedCountry) {
-      window.localStorage.setItem("country", JSON.stringify(selectedCountry));
-    }
-  }, [selectedCountry]);
-
-  useEffect(() => {
-    window.localStorage.setItem("code", code);
-  }, [code]);
 
   useEffect(() => {
     if (selectedCountry && code && selectedCountry?.currency !== code.toUpperCase()) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ROUTES } from '../../router';
+import { ROUTES } from 'router';
 
 import { Container, Identity, NavigationItem, NavigationItemLink } from './styled';
 

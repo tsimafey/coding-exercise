@@ -1,32 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Select, { SingleValue } from 'react-select'
 import { useQuery } from '@apollo/client';
 
-import { GET_CONTINENTS, GET_COUNTRIES } from '../../api';
+import { GET_CONTINENTS, GET_COUNTRIES } from 'api';
 
-import { Continent } from '../../types/continent';
-import { Country } from '../../types/country';
-import { SelectOption } from '../../types/selectOption';
+import useStateFromStorage from 'hooks/useStateFromStorage';
 
-import Layout from '../../layout';
-import Loading from '../../components/Loading';
-import RequestError from '../../components/RequestError';
+import { Continent } from 'types/continent';
+import { Country } from 'types/country';
+import { SelectOption } from 'types/selectOption';
+
+import Layout from 'layout';
+import Loading from 'components/Loading';
+import RequestError from 'components/RequestError';
 
 import { Container, SelectContainer, SelectWrapper, ContinentTitle, CountriesGrid, CountryTitle } from './styled';
 
 export default function Continents() {
-  const [continent, setContinent] = useState<Continent | null>(() => {
-    const continent = window.localStorage.getItem("continent");
-    return continent !== null
-      ? JSON.parse(continent)
-      : null;
-  });
-
-  useEffect(() => {
-    if (continent) {
-      window.localStorage.setItem("continent", JSON.stringify(continent));
-    }
-  }, [continent]);
+  const [continent, setContinent] = useStateFromStorage('continent');
 
   const { 
     data: continentsData, 
