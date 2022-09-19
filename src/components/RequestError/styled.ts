@@ -7,5 +7,6 @@ export const Container = styled.div`
 `
 
 export const Title = styled.p`
-  font-size: 3rem;
+  font-size: 2rem;
+  color: red;
 `
