@@ -14,8 +14,18 @@ import RequestError from '../../components/RequestError';
 import { Container, InputsContainer, InputWrapper, ErrorContainer, ErrorTitle, Input } from './styled';
 
 export default function Validation() {
-  const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
-  const [code, setCode] = useState<string>('');
+  const [selectedCountry, setSelectedCountry] = useState<Country | null>(() => {
+    const country = window.localStorage.getItem("country");
+    return country !== null
+      ? JSON.parse(country)
+      : null;
+  });
+  const [code, setCode] = useState<string>(() => {
+    const code = window.localStorage.getItem("code");
+    return code !== null
+      ? code
+      : '';
+  });
   const [error, setError] = useState<boolean>(false);
 
   const { 
@@ -25,7 +35,21 @@ export default function Validation() {
   } = useQuery(GET_COUNTRIES);
 
   useEffect(() => {
-    setError(selectedCountry?.currency !== code.toUpperCase() ? true : false);
+    if (selectedCountry) {
+      window.localStorage.setItem("country", JSON.stringify(selectedCountry));
+    }
+  }, [selectedCountry]);
+
+  useEffect(() => {
+    window.localStorage.setItem("code", code);
+  }, [code]);
+
+  useEffect(() => {
+    if (selectedCountry && code && selectedCountry?.currency !== code.toUpperCase()) {
+      setError(true)
+    } else {
+      setError(false);
+    }
   }, [selectedCountry, code]);
       
   return (
@@ -34,7 +58,8 @@ export default function Validation() {
         <InputsContainer>
           <InputWrapper>
             <Select 
-              options={countriesData.countries.map((c: Country) => ({ value: c.currency, label: c.name }))}
+              options={countriesData?.countries.map((c: Country) => ({ value: c.currency, label: c.name }))}
+              value={selectedCountry ? { value: selectedCountry.currency, label: selectedCountry.name } : null}
               onChange={(o: SingleValue<SelectOption>) => setSelectedCountry(o ? { currency: o.value, name: o.label } : null)}
             />
           </InputWrapper>

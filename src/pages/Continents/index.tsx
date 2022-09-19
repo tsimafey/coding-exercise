@@ -26,7 +26,7 @@ export default function Continents() {
     if (continent) {
       window.localStorage.setItem("continent", JSON.stringify(continent));
     }
-  }, [continent])
+  }, [continent]);
 
   const { 
     data: continentsData, 
