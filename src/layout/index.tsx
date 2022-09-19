@@ -2,6 +2,8 @@ import React, { ReactNode } from 'react';
 
 import Header from './Header'
 
+import { Container } from './styled'
+
 // ----------------------------------------------------------------------
 
 type Props = {
@@ -15,7 +17,9 @@ export default function Layout({
   return (
     <>
       <Header />
-      {children}
+      <Container>
+        {children}
+      </Container>
     </>
   );
 }
