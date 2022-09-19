@@ -12,7 +12,7 @@ import Layout from '../../layout';
 import Loading from '../../components/Loading';
 import RequestError from '../../components/RequestError';
 
-import { Container, SelectContainer, SelectWrapper, CountriesContainer, ContinentTitle } from './styled';
+import { Container, SelectContainer, SelectWrapper, ContinentTitle, CountriesGrid, CountryTitle } from './styled';
 
 export default function Continents() {
   const [continent, setContinent] = useState<Continent | null>(() => {
@@ -66,12 +66,14 @@ export default function Continents() {
               </SelectWrapper>
             </SelectContainer>
             {continent && (
-              <CountriesContainer>
+              <div>
                 <ContinentTitle>{continent.name}</ContinentTitle>
-                {countriesData && countriesData.countries.map((c: Country) => (
-                  <p key={c.name}>{c.name}</p>
-                ))}
-              </CountriesContainer>
+                <CountriesGrid>
+                  {countriesData && countriesData.countries.map((c: Country) => (
+                    <CountryTitle key={c.name}>{c.name}</CountryTitle>
+                  ))}
+                </CountriesGrid>
+              </div>
             )}
             {(continentsLoading || countriesLoading) && (
               <Loading />
