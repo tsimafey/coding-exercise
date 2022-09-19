@@ -1,22 +1,21 @@
 import React from 'react';
+import { ROUTES } from '../../router';
 
 import { Container, Identity, NavigationItem, NavigationItemLink } from './styled';
 
-const LINKS = ['Continents', 'Validation']
+const LINKS = ['continents', 'validation']
 
-function Header() {
-  return (
-    <Container>
-        <Identity href="#">Coding exercise</Identity>
+export default function Header() {
+    return (
+        <Container>
+            <Identity to={ROUTES.CONTINENTS}>Coding exercise</Identity>
             <nav>
                 <ul>
                     {LINKS.map((l) => (
-                        <NavigationItem key={l}><NavigationItemLink href="#">{l}</NavigationItemLink></NavigationItem>
+                        <NavigationItem key={l}><NavigationItemLink to={`/${l}`}>{`${l.charAt(0).toUpperCase()}${l.slice(1)}`}</NavigationItemLink></NavigationItem>
                     ))}
                 </ul>
             </nav>
         </Container>
-  );
+    );
 }
-
-export default Header;

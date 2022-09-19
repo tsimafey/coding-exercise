@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { NavLink } from 'react-router-dom'
+
 export const Container = styled.div`
   border-bottom: 1px solid #ccc;
   padding: 0.5em 1em;
@@ -8,7 +10,7 @@ export const Container = styled.div`
   align-items: center;
 `
 
-export const Identity = styled.a`
+export const Identity = styled(NavLink)`
   font-size: 2rem;
 
   &:hover {
@@ -21,7 +23,7 @@ export const NavigationItem = styled.li`
   margin: 1.4rem 1rem 1rem 1rem;
 `
 
-export const NavigationItemLink = styled.a`
+export const NavigationItemLink = styled(NavLink)`
   &:hover {
     color: #EC6333; 
   }
