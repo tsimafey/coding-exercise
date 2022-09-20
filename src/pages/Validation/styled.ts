@@ -1,10 +1,5 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-
 export const InputsContainer = styled.div`
   flex-shrink: 1;
   margin: 1rem 0;

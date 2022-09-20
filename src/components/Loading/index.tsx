@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Container, Title } from './styled';
 
-export default function Loading() {
+export function Loading() {
   return (
     <Container>
       <Title>Loading</Title>

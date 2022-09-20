@@ -1,3 +1,9 @@
+To start the project you must have the Node.js (^12.22.0, ^14.17.0, or >=16.0.0) built with SSL support.
+
+## Prepare
+
+Create a new file ".env" in the root folder. Cope the content of the ".env.example" to the new file.
+
 Before starting the project you should run:
 
 ### `yarn`

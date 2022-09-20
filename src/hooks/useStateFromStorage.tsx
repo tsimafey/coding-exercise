@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export default function useStateFromStorage(localStorageKey: string, isString = false) {
+export function useStateFromStorage(localStorageKey: string, isString = false) {
 
   const getValueFromType = (value: string) => isString ? value : JSON.parse(value);
 
@@ -8,7 +8,7 @@ export default function useStateFromStorage(localStorageKey: string, isString = 
     const value = window.localStorage.getItem(localStorageKey);
     return value !== null
       ? getValueFromType(value)
-      : null;
+      : isString ? '' : null;
   });
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import Select, { SingleValue } from 'react-select';
 import { useQuery } from '@apollo/client';
 
@@ -6,18 +6,17 @@ import { GET_COUNTRIES } from 'api/';
 
 import { Country } from 'types/country';
 import { SelectOption } from 'types/selectOption';
+import { LOCAL_STORAGE_KEY } from 'constants/localStorageKeys';
 
-import useStateFromStorage from 'hooks/useStateFromStorage';
+import { useStateFromStorage } from 'hooks/useStateFromStorage';
 
-import Layout from 'layout';
-import Loading from 'components/Loading';
-import RequestError from 'components/RequestError';
+import { Layout } from 'layout';
 
-import { Container, InputsContainer, InputWrapper, ErrorContainer, ErrorTitle, Input } from './styled';
+import { InputsContainer, InputWrapper, ErrorContainer, ErrorTitle, Input } from './styled';
 
-export default function Validation() {
-  const [selectedCountry, setSelectedCountry] = useStateFromStorage('country');
-  const [code, setCode] = useStateFromStorage('code', true);
+export function Validation() {
+  const [selectedCountry, setSelectedCountry] = useStateFromStorage(LOCAL_STORAGE_KEY.COUNTRY);
+  const [code, setCode] = useStateFromStorage(LOCAL_STORAGE_KEY.CODE, true);
   const [error, setError] = useState<boolean>(false);
 
   const { 
@@ -33,34 +32,34 @@ export default function Validation() {
       setError(false);
     }
   }, [selectedCountry, code]);
+
+  const handleSelectChange = (option: SingleValue<SelectOption>) => setSelectedCountry(
+    option 
+      ? { currency: option.value, name: option.label } 
+      : null
+  );
+
+  const handleTextChange = (e: FormEvent<HTMLInputElement>) => setCode(e.currentTarget.value.toUpperCase())
       
   return (
-    <Layout>
-      <Container>
-        <InputsContainer>
-          <InputWrapper>
-            <Select 
-              options={countriesData?.countries.map((c: Country) => ({ value: c.currency, label: c.name }))}
-              value={selectedCountry ? { value: selectedCountry.currency, label: selectedCountry.name } : null}
-              onChange={(o: SingleValue<SelectOption>) => setSelectedCountry(o ? { currency: o.value, name: o.label } : null)}
-            />
-          </InputWrapper>
-          <InputWrapper>
-            <Input type="text" value={code} onChange={(e) => setCode(e.target.value.toUpperCase())} />
-          </InputWrapper>
-        </InputsContainer>
-        {(countriesLoading) && (
-          <Loading />
-        )}
-        {error && (
-          <ErrorContainer>
-            <ErrorTitle>Currency does not match the country selected. Please correct</ErrorTitle>
-          </ErrorContainer>
-        )}
-        {countriesError && (
-          <RequestError />
-        )}
-      </Container>
+    <Layout isLoading={countriesLoading} requestError={countriesError}>
+      <InputsContainer>
+        <InputWrapper>
+          <Select 
+            options={countriesData?.countries.map((country: Country) => ({ value: country.currency, label: country.name }))}
+            value={selectedCountry ? { value: selectedCountry.currency, label: selectedCountry.name } : null}
+            onChange={handleSelectChange}
+          />
+        </InputWrapper>
+        <InputWrapper>
+          <Input type="text" value={code} onChange={handleTextChange} />
+        </InputWrapper>
+      </InputsContainer>
+      {error && (
+        <ErrorContainer>
+          <ErrorTitle>Currency does not match the country selected. Please correct</ErrorTitle>
+        </ErrorContainer>
+      )}
     </Layout>
   );
 }

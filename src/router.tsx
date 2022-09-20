@@ -1,21 +1,17 @@
 import React from 'react';
-
 import {
   createBrowserRouter,
   Navigate,
-} from "react-router-dom";
+} from 'react-router-dom';
 
-import Continents from "./pages/Continents";
-import Validation from "./pages/Validation";
+import { ROUTES } from 'constants/routes';
 
-export const ROUTES = {
-  CONTINENTS: '/continents',
-  VALIDATION: '/validation'
-}
+import { Continents } from './pages/Continents';
+import { Validation } from './pages/Validation';
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Navigate to={ROUTES.CONTINENTS} />,
   },
   {
@@ -27,5 +23,3 @@ const router = createBrowserRouter([
     element: <Validation />,
   },
 ]);
-
-export default router;

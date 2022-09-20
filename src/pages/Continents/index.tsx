@@ -4,20 +4,20 @@ import { useQuery } from '@apollo/client';
 
 import { GET_CONTINENTS, GET_COUNTRIES } from 'api';
 
-import useStateFromStorage from 'hooks/useStateFromStorage';
+import { useStateFromStorage } from 'hooks/useStateFromStorage';
 
 import { Continent } from 'types/continent';
 import { Country } from 'types/country';
 import { SelectOption } from 'types/selectOption';
+import { LOCAL_STORAGE_KEY } from 'constants/localStorageKeys';
 
-import Layout from 'layout';
-import Loading from 'components/Loading';
-import RequestError from 'components/RequestError';
+import { Layout } from 'layout';
+import { RequestError } from 'components/RequestError';
 
-import { Container, SelectContainer, SelectWrapper, ContinentTitle, CountriesGrid, CountryTitle } from './styled';
+import { SelectContainer, SelectWrapper, ContinentTitle, CountriesGrid, CountryTitle } from './styled';
 
-export default function Continents() {
-  const [continent, setContinent] = useStateFromStorage('continent');
+export function Continents() {
+  const [continent, setContinent] = useStateFromStorage(LOCAL_STORAGE_KEY.CONTINENT);
 
   const { 
     data: continentsData, 
@@ -40,41 +40,35 @@ export default function Continents() {
     skip: !continent
   });
 
+  const handleChange = (option: SingleValue<SelectOption>) => setContinent(option ? { code: option.value, name: option.label } : null)
+
   return (
-    <Layout>
-      <Container>
-        {(continentsError) ? (
-          <RequestError />
-        ) : (
-          <>
-            <SelectContainer>
-              <SelectWrapper>
-                <Select 
-                  options={continentsData?.continents.map((c: Continent) => ({ value: c.code, label: c.name }))}
-                  value={continent ? { value: continent.code, label: continent.name } : null}
-                  onChange={(o: SingleValue<SelectOption>) => setContinent(o ? { code: o.value, name: o.label } : null)}
-                />
-              </SelectWrapper>
-            </SelectContainer>
-            {continent && (
-              <div>
-                <ContinentTitle>{continent.name}</ContinentTitle>
-                <CountriesGrid>
-                  {countriesData && countriesData.countries.map((c: Country) => (
-                    <CountryTitle key={c.name}>{c.name}</CountryTitle>
-                  ))}
-                </CountriesGrid>
-              </div>
-            )}
-            {(continentsLoading || countriesLoading) && (
-              <Loading />
-            )}
-            {(countriesError) && (
-              <RequestError />
-            )}
-          </>
-        )}
-      </Container>
+    <Layout isLoading={(continentsLoading || countriesLoading)} requestError={countriesError}>
+      {(continentsError) ? (
+        <RequestError />
+      ) : (
+        <>
+          <SelectContainer>
+            <SelectWrapper>
+              <Select 
+                options={continentsData?.continents.map((continent: Continent) => ({ value: continent.code, label: continent.name }))}
+                value={continent ? { value: continent.code, label: continent.name } : null}
+                onChange={handleChange}
+              />
+            </SelectWrapper>
+          </SelectContainer>
+          {continent && (
+            <div>
+              <ContinentTitle>{continent.name}</ContinentTitle>
+              <CountriesGrid>
+                {countriesData && countriesData.countries.map((country: Country) => (
+                  <CountryTitle key={country.name}>{country.name}</CountryTitle>
+                ))}
+              </CountriesGrid>
+            </div>
+          )}
+        </>
+      )}
     </Layout>
   );
 }

@@ -1,11 +1,9 @@
 // requests
-import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloClient, InMemoryCache } from '@apollo/client';
 
-const uri = 'https://countries.trevorblades.com/'
+const uri = process.env.REACT_APP_API_URI
 
-const client = new ApolloClient({
+export const client = new ApolloClient({
   uri,
   cache: new InMemoryCache(),
 });
-
-export default client;

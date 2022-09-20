@@ -1,6 +1,9 @@
 import React, { ReactNode } from 'react';
+import { ApolloError } from '@apollo/client';
 
-import Header from './Header'
+import { RequestError } from 'components/RequestError';
+import { Loading } from 'components/Loading';
+import { Header } from './Header'
 
 import { Container } from './styled'
 
@@ -8,10 +11,14 @@ import { Container } from './styled'
 
 type Props = {
   children: ReactNode;
+  isLoading: boolean;
+  requestError?: ApolloError;
 };
 
-export default function Layout({
+export function Layout({
   children,
+  isLoading,
+  requestError,
 }: Props) {
 
   return (
@@ -19,6 +26,12 @@ export default function Layout({
       <Header />
       <Container>
         {children}
+        {(isLoading) && (
+          <Loading />
+        )}
+        {requestError && (
+          <RequestError />
+        )}
       </Container>
     </>
   );

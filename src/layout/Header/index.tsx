@@ -1,18 +1,22 @@
 import React from 'react';
-import { ROUTES } from 'router';
+import { ROUTES } from 'constants/routes';
 
 import { Container, Identity, NavigationItem, NavigationItemLink } from './styled';
 
 const LINKS = ['continents', 'validation']
 
-export default function Header() {
+export function Header() {
   return (
     <Container>
       <Identity to={ROUTES.CONTINENTS}>Coding exercise</Identity>
       <nav>
         <ul>
-          {LINKS.map((l) => (
-            <NavigationItem key={l}><NavigationItemLink to={`/${l}`}>{`${l.charAt(0).toUpperCase()}${l.slice(1)}`}</NavigationItemLink></NavigationItem>
+          {LINKS.map((link) => (
+            <NavigationItem key={link}>
+              <NavigationItemLink to={`/${link}`}>
+                {`${link.charAt(0).toUpperCase()}${link.slice(1)}`}
+              </NavigationItemLink>
+            </NavigationItem>
           ))}
         </ul>
       </nav>
