@@ -1,7 +1,7 @@
 import React from 'react';
 import { ROUTES } from 'constants/routes';
 
-import { Container, Identity, NavigationItem, NavigationItemLink } from './styled';
+import { Container, Identity, NavigationWrapper, NavigationItem, NavigationItemLink } from './styled';
 
 const LINKS = ['continents', 'validation']
 
@@ -10,7 +10,7 @@ export function Header() {
     <Container>
       <Identity to={ROUTES.CONTINENTS}>Coding exercise</Identity>
       <nav>
-        <ul>
+        <NavigationWrapper>
           {LINKS.map((link) => (
             <NavigationItem key={link}>
               <NavigationItemLink to={`/${link}`}>
@@ -18,7 +18,7 @@ export function Header() {
               </NavigationItemLink>
             </NavigationItem>
           ))}
-        </ul>
+        </NavigationWrapper>
       </nav>
     </Container>
   );

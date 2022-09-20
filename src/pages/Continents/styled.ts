@@ -10,6 +10,10 @@ export const SelectContainer = styled.div`
 
 export const SelectWrapper = styled.div`
   min-width: 20rem;
+
+  @media (max-width: 480px) {
+    min-width: 10rem;
+  }
 `
 
 export const ContinentTitle = styled.h2`
@@ -18,8 +22,13 @@ export const ContinentTitle = styled.h2`
 
 export const CountriesGrid = styled.div`
   display: grid;
+  grid-column-gap: 1rem;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: repeat(20, 1fr)
+  grid-template-rows: repeat(20, 1fr);
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+  }
 `
 
 export const CountryTitle = styled.p`
