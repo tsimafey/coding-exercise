@@ -17,7 +17,7 @@ export function App() {
 
   const themeToggler = () => {
     theme === THEME.LIGHT ? setTheme(THEME.DARK) : setTheme(THEME.LIGHT)
-  }
+  };
   
   return (
     <ApolloProvider client={client}>

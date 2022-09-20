@@ -16,7 +16,7 @@ import { InputsContainer, InputWrapper, ErrorContainer, ErrorTitle, Input } from
 
 export function Validation() {
   const [selectedCountry, setSelectedCountry] = useStateFromStorage(LOCAL_STORAGE_KEY.COUNTRY);
-  const [code, setCode] = useStateFromStorage(LOCAL_STORAGE_KEY.CODE, true);
+  const [code, setCode] = useStateFromStorage(LOCAL_STORAGE_KEY.CODE);
   const [error, setError] = useState<boolean>(false);
 
   const { 
